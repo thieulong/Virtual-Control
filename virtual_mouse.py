@@ -10,7 +10,7 @@ print("Screen resolution:", width, "x", height)
 drawingModule = mediapipe.solutions.drawing_utils
 handsModule = mediapipe.solutions.hands
  
-capture = cv2.VideoCapture(3)
+capture = cv2.VideoCapture(1)
  
 frameWidth = capture.get(cv2.CAP_PROP_FRAME_WIDTH)
 frameHeight = capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -42,23 +42,24 @@ with handsModule.Hands(static_image_mode=False, min_detection_confidence=0.7, mi
                         pyautogui.moveTo(fingertip_cord)
 
                     # # Click
-                    # thumbtip = 4
-                    # thumbtip_normalizedLandmark = handLandmarks.landmark[thumbtip]
-                    # thumbtip_pixelCoordinatesLandmark = drawingModule._normalized_to_pixel_coordinates(thumbtip_normalizedLandmark.x, thumbtip_normalizedLandmark.y, frameWidth, frameHeight)
+                    thumbtip = 4
+                    thumbtip_normalizedLandmark = handLandmarks.landmark[thumbtip]
+                    thumbtip_pixelCoordinatesLandmark = drawingModule._normalized_to_pixel_coordinates(thumbtip_normalizedLandmark.x, thumbtip_normalizedLandmark.y, frameWidth, frameHeight)
  
-                    # cv2.circle(frame, thumbtip_pixelCoordinatesLandmark, 5, (0, 255, 0), -1)
+                    cv2.circle(frame, thumbtip_pixelCoordinatesLandmark, 5, (0, 255, 0), -1)
 
-                    # distance_thumb_finger = math.sqrt(math.pow((thumbtip_pixelCoordinatesLandmark[0]-fingertip_pixelCoordinatesLandmark[0]),2)+math.pow((thumbtip_pixelCoordinatesLandmark[1]-fingertip_pixelCoordinatesLandmark[1]),2))
+                    distance_thumb_finger = math.sqrt(math.pow((thumbtip_pixelCoordinatesLandmark[0]-fingertip_pixelCoordinatesLandmark[0]),2)+math.pow((thumbtip_pixelCoordinatesLandmark[1]-fingertip_pixelCoordinatesLandmark[1]),2))
 
-                    # print(distance_thumb_finger)
+                    print(distance_thumb_finger)
 
-                    # if distance_thumb_finger <= 10:
-                    #     pyautogui.click(button='left')
+                    if distance_thumb_finger <= 30:
+                        pyautogui.mouseDown(button='left')
+                    if distance_thumb_finger > 30:
+                        
+                        pyautogui.mouseUp(button='left')
 
-
-                    
  
-        cv2.imshow("Virtual Mouse", frame)
+        # cv2.imshow("Virtual Mouse", frame)
  
         if cv2.waitKey(1) == 27:
             break
